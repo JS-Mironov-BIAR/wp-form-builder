@@ -1,0 +1,29 @@
+# Node dependencies
+node_modules/
+
+# Webpack output
+assets/dist/
+
+# Logs
+logs/
+*.log
+
+# System files
+*.DS_Store
+.idea/
+.vscode/
+.fleet/
+
+# Local env files
+.env
+.env.*
+
+# ESLint & Prettier
+.eslintrc.js
+.prettierrc.json
+
+# Tailwind
+tailwind.config.js
+
+#Other Files
+structure.txt

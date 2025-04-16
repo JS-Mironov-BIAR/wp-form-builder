@@ -1,0 +1,214 @@
+.tgfb-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+}
+
+.wtn-form-wrapper {
+    position: relative;
+}
+
+.wtn-form-wrapper.loading .wtn-form {
+    filter: blur(2px);
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.wtn-form-wrapper .wtn-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -24px 0 0 -24px;
+    z-index: 10;
+    display: none;
+    width: 48px;
+    height: 48px;
+}
+
+.wtn-form-wrapper.loading .wtn-loader {
+    display: block !important;
+}
+
+
+@keyframes wtn-spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.wtn-spinner {
+    animation: wtn-rotate 1s linear infinite;
+}
+
+@keyframes wtn-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.wtn-spinner-path {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: 0;
+    animation: wtn-dash 1.5s ease-in-out infinite;
+}
+
+@keyframes wtn-dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+/* Form styles */
+
+/* --- Основной контейнер формы --- */
+.wtn-form-wrapper {
+    max-width: 100%;
+    width: 100%;
+    /*padding: 24px;*/
+    border-radius: 8px;
+    /*background-color: #ffffff;*/
+    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);*/
+    box-sizing: border-box;
+    padding-top: 2rem;
+}
+
+/* --- Общая стилизация формы --- */
+.wtn-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* --- Универсальный стиль label --- */
+.wtn-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 15px;
+    color: #333;
+}
+
+/* --- input, textarea --- */
+.wtn-form input[type="text"],
+.wtn-form input[type="email"],
+.wtn-form input[type="tel"],
+.wtn-form textarea {
+    padding: 10px 14px;
+    font-size: 16px;
+    line-height: 1.4;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wtn-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* --- focus + hover --- */
+.wtn-form input:focus,
+.wtn-form textarea:focus {
+    border-color: #0077b5;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 119, 181, 0.1);
+}
+
+.wtn-form input:hover,
+.wtn-form textarea:hover {
+    border-color: #888;
+}
+
+/* --- Кнопка отправки --- */
+.wtn-form button {
+    padding: 12px 20px;
+    background-color: #0077b5;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.wtn-form button:hover {
+    background-color: #005f93;
+}
+
+.wtn-form button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* --- Чекбокс --- */
+.wtn-form input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    accent-color: #0077b5;
+}
+
+.wtn-form label:has(input[type="checkbox"]) {
+    flex-direction: row;
+    align-items: center;
+}
+
+/* --- Ссылки внутри label --- */
+.wtn-form label a {
+    color: #0077b5;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.wtn-form label a:hover {
+    color: #005f93;
+}
+
+/* --- Адаптив --- */
+@media (max-width: 600px) {
+    .wtn-form-wrapper {
+        padding: 16px;
+    }
+
+    .wtn-form {
+        gap: 12px;
+    }
+
+    .wtn-form button {
+        width: 100%;
+    }
+}
+
+
+/* required field */
+
+/* --- Звёздочка обязательного поля --- */
+.wtn-required {
+    color: #e11d48; /* red-600 */
+    margin-left: 4px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.wtn-label-inline {
+    font-size: 13px;
+    color: #e11d48;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.wtn-label span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}

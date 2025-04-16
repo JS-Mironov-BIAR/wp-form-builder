@@ -1,0 +1,78 @@
+name: Build and Release Plugin
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+jobs:
+  build:
+    if: github.event_name == 'push' || (github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write   # ✅ Permission to remove artifacts and workflow runs
+
+    steps:
+      - name: 🔄 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🛠 Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔢 Bump version in plugin file
+        run: node update-version.js
+
+      - name: 🔨 Build project
+        run: npm run build -- --mode=production
+
+      - name: 🗑 Delete all old artifacts using GitHub API
+        run: |
+          echo "Fetching artifacts..."
+          ARTIFACTS=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github+json" \
+          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | jq -r '.artifacts[] | select(.name=="custom-modal-controller") | .id')
+
+          for ID in $ARTIFACTS; do
+            echo "Deleting artifact ID: $ID"
+            curl -X DELETE -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$ID"
+          done
+
+      - name: 🗑 Delete old workflow runs (We leave the last 5)
+        run: |
+          echo "Fetching workflow runs..."
+          RUNS=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github+json" \
+          "https://api.github.com/repos/${{ github.repository }}/actions/runs" | jq -r '.workflow_runs | sort_by(.created_at) | reverse | .[5:] | .[].id')
+
+          for RUN_ID in $RUNS; do
+            echo "Deleting workflow run ID: $RUN_ID"
+            curl -X DELETE -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/$RUN_ID"
+          done
+
+      - name: 🗂 Create plugin ZIP archive
+        run: |
+          zip -r wp-form-builder.zip \
+          . \
+          -x "node_modules/*" ".git/*" ".github/*" ".gitignore" "package-lock.json" \
+          "assets/src/*" "setup-hooks.sh" "update-version.js"
+
+      - name: 📤 Upload ZIP artifact (direct plugin ZIP)
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp-form-builder
+          path: wp-form-builder.zip
