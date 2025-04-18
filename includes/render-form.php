@@ -34,16 +34,30 @@ function wfb_render_form_template(string $template): string {
 
 	$template = preg_replace_callback('/\[checkbox (.*?)\]/', static function ($matches) {
 		$attrs = $matches[1];
-		preg_match('/label="([^"]+)"/', $attrs, $labelMatch);
+
+		// 1. Забираем label
+		preg_match('/label="([^"]*)"/', $attrs, $labelMatch);
 		$label = $labelMatch[1] ?? '';
+
+		// 2. Забираем href
+		preg_match('/href="([^"]*)"/', $attrs, $hrefMatch);
+		$href = $hrefMatch[1] ?? '';
 
 		$isRequired = str_contains($attrs, 'required') || str_contains($attrs, 'required="true"');
 		$requiredMark = $isRequired ? ' <span class="wfb-required">*</span>' : '';
 
-		$attrs = preg_replace('/label="[^"]*"/', '', $attrs);
+		// Убираем label и href из атрибутов
+		$attrs = preg_replace('/(label|href)="[^"]*"/', '', $attrs);
+
+		// Если ссылка есть — оборачиваем label в <a>
+		if ($href) {
+			$labelHtml = '<a href="' . esc_url($href) . '" target="_blank" rel="noopener noreferrer">' . esc_html($label) . '</a>';
+		} else {
+			$labelHtml = esc_html($label);
+		}
 
 		return $label
-			? "<label><input type=\"checkbox\" $attrs><span>$label$requiredMark</span></label>"
+			? "<label><input type=\"checkbox\" $attrs><span>$labelHtml$requiredMark</span></label>"
 			: "<input type=\"checkbox\" $attrs>";
 	}, $template);
 
@@ -53,11 +67,13 @@ function wfb_render_form_template(string $template): string {
 		preg_match('/items="([^"]+)"/', $attrs, $itemsMatch);
 		preg_match('/label="([^"]+)"/', $attrs, $labelMatch);
 		preg_match('/default="([^"]+)"/', $attrs, $defaultMatch);
+		preg_match('/name="([^"]+)"/', $attrs, $nameMatch);
 
 		$label = $labelMatch[1] ?? '';
 		$defaultOption = $defaultMatch[1] ?? 'Выберите вариант';
+		$name = $nameMatch[1] ?? 'select'; // <-- если имя не указано, ставим "select"
 
-		$optionsHtml = '<option value="">' . esc_html($defaultOption) . '</option>'; // ➔ всегда первая опция пустая
+		$optionsHtml = '<option value="">' . esc_html($defaultOption) . '</option>'; // первая пустая всегда
 
 		if (!empty($itemsMatch[1])) {
 			$items = explode(',', $itemsMatch[1]);
@@ -70,15 +86,15 @@ function wfb_render_form_template(string $template): string {
 		// Убираем items, label и default из атрибутов
 		$attrs = preg_replace('/(items|label|default)="[^"]*"/', '', $attrs);
 
-		// Строим сам <select> + пустой блок для дополнительного контента
-		$selectHtml = '<select ' . $attrs . ' class="wfb-select">' . $optionsHtml . '</select>';
+		// Формируем select + скрытое поле hidden
+		$selectHtml = '<select ' . $attrs . ' class="wfb-select" data-target-hidden="' . esc_attr($name) . '">' . $optionsHtml . '</select>';
+		$hiddenHtml = '<input type="hidden" name="' . esc_attr($name) . '" value="">';
 		$extraContentHtml = '<div class="wfb-select-extra-content" style="display:none;" data-content=""></div>';
 
-
-		// Собираем итоговую разметку
+		// Собираем вывод
 		return $label
-			? "<label class=\"wfb-label\"><span>$label</span>$selectHtml$extraContentHtml</label>"
-			: $selectHtml . $extraContentHtml;
+			? "<label class=\"wfb-label\"><span>$label</span>$selectHtml$hiddenHtml$extraContentHtml</label>"
+			: $selectHtml . $hiddenHtml . $extraContentHtml;
 	}, $template);
 
 

@@ -61,6 +61,16 @@ export default function initFormHandler() {
                     extraContentContainer.style.display = 'none'
                 }
             }
+
+            const hiddenFieldName = select.getAttribute('data-target-hidden')
+            const hiddenInput = form.querySelector(`input[type="hidden"][name="${hiddenFieldName}"]`)
+
+            if (hiddenInput) {
+                select.addEventListener('change', () => {
+                    const selectedValueActive = select.value.trim()
+                    hiddenInput.value = selectedValueActive
+                })
+            }
         })
         // trash select
     })
