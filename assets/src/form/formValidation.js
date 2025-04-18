@@ -21,3 +21,17 @@ export function restrictNameInput(input) {
             .substring(0, 30) // length limitation
     })
 }
+
+/**
+ * Restricts required select fields — blocks empty submission
+ * @param {NodeListOf<HTMLSelectElement>} selects
+ */
+export function restrictSelectField(selects) {
+    selects.forEach((select) => {
+        select.addEventListener('invalid', (e) => {
+            if (!select.value.trim()) {
+                // e.preventDefault()
+            }
+        })
+    })
+}

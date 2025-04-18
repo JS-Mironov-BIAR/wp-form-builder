@@ -1,25 +1,26 @@
 <?php
 /**
- * Plugin Name: WordPress form builder
- * Plugin URI:  https://olaksen.by
- * Description: Легкий и быстрый способ создавать формы обратной связи и подключать их для GMail и Telegram.
- * Version:     1.0.0
- * Author:      Egor Mironov
- * Author URI:  https://yourwebsite.com
- * License:     GPL2
- * Text Domain: wp-form-builder
-
+ * Plugin Name:       WordPress Form Builder
+ * Plugin URI:        https://olaksen.by
+ * Description:       Lightweight and fast form builder for WordPress. Easily connect forms to Gmail and Telegram.
+ * Version:           1.0.0
+ * Author:            Egor Mironov
+ * Author URI:        https://yourwebsite.com
+ * License:           GPL2
+ * Text Domain:       wp-form-builder
  */
 
 if (!defined('ABSPATH')) {
 	exit;
 }
 
-// Connecting Files
-require_once plugin_dir_path(__FILE__) . 'includes/dependencies.php';
+/**
+ * Handles full uninstallation logic
+ */
+function wpfb_handle_uninstall(): void {
+	require_once plugin_dir_path(__FILE__) . 'uninstall.php';
+}
+register_uninstall_hook(__FILE__, 'wpfb_handle_uninstall');
 
-require_once plugin_dir_path(__FILE__) . 'admin/settings.php';
-require_once plugin_dir_path(__FILE__) . 'admin/chat-sync.php';
-require_once plugin_dir_path(__FILE__) . 'admin/test-send.php';
-require_once plugin_dir_path(__FILE__) . 'includes/init.php';
-require_once plugin_dir_path(__FILE__) . 'includes/assets.php';
+// Load plugin logic
+require_once plugin_dir_path(__FILE__) . 'loader.php';

@@ -4,7 +4,7 @@ if (!function_exists('is_plugin_active')) {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
-function wtn_check_required_plugins(): void {
+function wfb_check_required_plugins(): void {
 	$plugin_variants = [
 		'custom-modal-controller/custom-modal-controller.php',
 		'custom-popup-controller/custom-modal-controller.php',
@@ -29,4 +29,4 @@ function wtn_check_required_plugins(): void {
 		});
 	}
 }
-add_action('admin_init', 'wtn_check_required_plugins');
+add_action('admin_init', 'wfb_check_required_plugins');
