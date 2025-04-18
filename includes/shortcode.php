@@ -59,12 +59,6 @@ function wpfb_render_shortcode_form($atts) {
 			<?php endif; ?>
 		</form>
 
-	<!--	<?php
-/*		$extra_content = get_post_meta($post_id, 'wpfb_select_extra_html', true);
-		if (!empty($extra_content)) : */?>
-            <div class="wfb-select-extra-content" style="display: none;" data-content="<?php /*echo esc_attr($extra_content); */?>"></div>
-		--><?php /*endif; */?>
-
 		<div class="wfb-loader" style="display: none;">
 			<svg class="wfb-spinner" width="48" height="48" viewBox="0 0 50 50">
 				<circle class="wfb-spinner-path" cx="25" cy="25" r="20" fill="none" stroke="#0077B5" stroke-width="4" stroke-linecap="round"            />

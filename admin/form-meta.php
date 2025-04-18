@@ -39,7 +39,7 @@ function wpfb_render_form_template_meta_box(WP_Post $post): void {
                 <button type="button" class="wpfb-insert-tag" data-tag='[email name="" placeholder="Email"]' title="Email. Атрибуты: required, label, name, placeholder, class">[email]</button>
                 <button type="button" class="wpfb-insert-tag" data-tag='[textarea name="" placeholder="Ваше сообщение"]' title="Многострочное поле. Атрибуты: required, label, name, placeholder, class">[textarea]</button>
                 <button type="button" class="wpfb-insert-tag" data-tag='[select name="" items="Сайт, Лендинг, Интернет-магазин"]' title="Выпадающий список (select). Атрибуты: required, label, name, class, items, default">[select]</button>
-                <button type="button" class="wpfb-insert-tag" data-tag='[checkbox name="" label="Согласие"]' title="Чекбокс (consent). Атрибуты: required, label, name, class">[checkbox]</button>
+                <button type="button" class="wpfb-insert-tag" data-tag='[checkbox name="" label="Согласие"]' title="Чекбокс (consent). Атрибуты: required, label, name, class, href">[checkbox]</button>
                 <button type="button" class="wpfb-insert-tag" data-tag='[send text="Отправить"]' title="Кнопка отправки. Атрибуты: text, class">[send]</button>
                 <button type="button" id="wpfb-undo-btn" style="margin-left: 16px;">↩️ Отменить</button>
                 <button type="button" id="wpfb-redo-btn">↪️ Повторить</button>
@@ -81,7 +81,6 @@ function wpfb_render_message_template_meta_box(WP_Post $post): void {
         <button type="button" class="wpfb-insert-message-tag" data-tag="[phone]" title="Телефон">[phone]</button>
         <button type="button" class="wpfb-insert-message-tag" data-tag="[email]" title="Email">[email]</button>
         <button type="button" class="wpfb-insert-message-tag" data-tag="[message]" title="Текст сообщения">[message]</button>
-        <button type="button" class="wpfb-insert-tag" data-tag='[select name="" items="Сайт, Лендинг, Интернет-магазин"]' title="Выпадающий список (select)">[select]</button>
         <button type="button" class="wpfb-insert-message-tag" data-tag="[select]" title="Выбранный пункт из выпадающего списка">[select]</button>
         <button type="button" class="wpfb-insert-message-tag" data-tag="[checkbox]" title="Согласие на обработку данных">[checkbox]</button>
         <button type="button" id="wpfb-msg-undo-btn" style="margin-left: 16px;">↩️ Отменить</button>
@@ -124,7 +123,7 @@ function wpfb_save_form_meta_data(int $post_id): void {
 	if (!current_user_can('edit_post', $post_id)) return;
 
 	if (isset($_POST['wpfb_form_template_nonce']) && wp_verify_nonce($_POST['wpfb_form_template_nonce'], 'wpfb_save_form_template')) {
-		update_post_meta($post_id, 'wpfb_form_template', sanitize_textarea_field($_POST['wpfb_form_template']));
+		update_post_meta($post_id, 'wpfb_form_template', wp_kses_post($_POST['wpfb_form_template']));
 	}
 
 	if (isset($_POST['wpfb_message_template_nonce']) && wp_verify_nonce($_POST['wpfb_message_template_nonce'], 'wpfb_save_message_template')) {

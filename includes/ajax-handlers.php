@@ -28,7 +28,7 @@ function wpfb_handle_send_form(): void {
 		'phone'   => 'sanitize_text_field',
 		'email'   => 'sanitize_email',
 		'message' => 'sanitize_textarea_field',
-		'consent' => 'sanitize_text_field',
+		'checkout' => 'sanitize_text_field',
 		'select'  => 'sanitize_text_field',
 	];
 
@@ -40,6 +40,7 @@ function wpfb_handle_send_form(): void {
 		}
 	}
 
+	// Проверка: выбран ли select
 	if (isset($sanitized_data['select']) && $sanitized_data['select'] === '') {
 		wp_send_json_error('Пожалуйста, выберите значение из списка.');
 	}
