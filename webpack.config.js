@@ -18,7 +18,7 @@ module.exports = {
         form: './assets/src/admin/form/index.js',
     },
     output: {
-        filename: isProduction ? '[name].min.js' : '[name].js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'assets/dist'),
     },
     mode: isProduction ? 'production' : 'development',

@@ -57,8 +57,8 @@ export default function initFormEditor() {
                 let optionsHtml = ''
 
                 if (itemsMatch) {
-                    const items = itemsMatch[1].split(',').map(item => item.trim())
-                    optionsHtml = items.map(item => `<option>${item}</option>`).join('')
+                    const items = itemsMatch[1].split(',').map((item) => item.trim())
+                    optionsHtml = items.map((item) => `<option>${item}</option>`).join('')
                 }
 
                 const cleanAttrs = attrs.replace(/items="[^"]*"/, '').trim()
@@ -79,7 +79,6 @@ export default function initFormEditor() {
             })
         }
     }
-
 
     const saveFormHistory = () => {
         const current = formTextarea.value
