@@ -31,7 +31,7 @@ $test_success = isset($_GET['test_send']) && $_GET['test_send'] === 'success';
 					<h2 class="hndle">Управление ID и отправкой</h2>
 					<div class="inside">
 						<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-bottom: 16px;">
-							<input type="hidden" name="action" value="wtn_chat_sync">
+							<input type="hidden" name="action" value="wfb_chat_sync">
 							<?php submit_button('Обновить Chat ID из Telegram', 'primary', 'submit', false); ?>
 						</form>
 

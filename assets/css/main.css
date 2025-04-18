@@ -5,17 +5,18 @@
     max-width: 400px;
 }
 
-.wtn-form-wrapper {
+.wfb-form-wrapper {
     position: relative;
 }
 
-.wtn-form-wrapper.loading .wtn-form {
+.wfb-form-wrapper.loading .wfb-form-title,
+.wfb-form-wrapper.loading .wfb-form {
     filter: blur(2px);
     pointer-events: none;
     opacity: 0.6;
 }
 
-.wtn-form-wrapper .wtn-loader {
+.wfb-form-wrapper .wfb-loader {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -26,33 +27,33 @@
     height: 48px;
 }
 
-.wtn-form-wrapper.loading .wtn-loader {
+.wfb-form-wrapper.loading .wfb-loader {
     display: block !important;
 }
 
 
-@keyframes wtn-spin {
+@keyframes wfb-spin {
     0%   { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-.wtn-spinner {
-    animation: wtn-rotate 1s linear infinite;
+.wfb-spinner {
+    animation: wfb-rotate 1s linear infinite;
 }
 
-@keyframes wtn-rotate {
+@keyframes wfb-rotate {
     100% {
         transform: rotate(360deg);
     }
 }
 
-.wtn-spinner-path {
+.wfb-spinner-path {
     stroke-dasharray: 90, 150;
     stroke-dashoffset: 0;
-    animation: wtn-dash 1.5s ease-in-out infinite;
+    animation: wfb-dash 1.5s ease-in-out infinite;
 }
 
-@keyframes wtn-dash {
+@keyframes wfb-dash {
     0% {
         stroke-dasharray: 1, 150;
         stroke-dashoffset: 0;
@@ -68,9 +69,16 @@
 }
 
 /* Form styles */
+.wfb-form-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+    padding: 0 0 1.5rem;
+}
 
 /* --- Основной контейнер формы --- */
-.wtn-form-wrapper {
+.wfb-form-wrapper {
     max-width: 100%;
     width: 100%;
     /*padding: 24px;*/
@@ -82,14 +90,14 @@
 }
 
 /* --- Общая стилизация формы --- */
-.wtn-form {
+.wfb-form {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
 /* --- Универсальный стиль label --- */
-.wtn-form label {
+.wfb-form label {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -98,10 +106,10 @@
 }
 
 /* --- input, textarea --- */
-.wtn-form input[type="text"],
-.wtn-form input[type="email"],
-.wtn-form input[type="tel"],
-.wtn-form textarea {
+.wfb-form input[type="text"],
+.wfb-form input[type="email"],
+.wfb-form input[type="tel"],
+.wfb-form textarea {
     padding: 10px 14px;
     font-size: 16px;
     line-height: 1.4;
@@ -111,26 +119,26 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.wtn-form textarea {
+.wfb-form textarea {
     min-height: 120px;
     resize: vertical;
 }
 
 /* --- focus + hover --- */
-.wtn-form input:focus,
-.wtn-form textarea:focus {
+.wfb-form input:focus,
+.wfb-form textarea:focus {
     border-color: #0077b5;
     outline: none;
     box-shadow: 0 0 0 2px rgba(0, 119, 181, 0.1);
 }
 
-.wtn-form input:hover,
-.wtn-form textarea:hover {
+.wfb-form input:hover,
+.wfb-form textarea:hover {
     border-color: #888;
 }
 
 /* --- Кнопка отправки --- */
-.wtn-form button {
+.wfb-form button {
     padding: 12px 20px;
     background-color: #0077b5;
     border: none;
@@ -141,50 +149,50 @@
     transition: background-color 0.2s ease;
 }
 
-.wtn-form button:hover {
+.wfb-form button:hover {
     background-color: #005f93;
 }
 
-.wtn-form button:disabled {
+.wfb-form button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
 
 /* --- Чекбокс --- */
-.wtn-form input[type="checkbox"] {
+.wfb-form input[type="checkbox"] {
     width: 18px;
     height: 18px;
     margin-right: 8px;
     accent-color: #0077b5;
 }
 
-.wtn-form label:has(input[type="checkbox"]) {
+.wfb-form label:has(input[type="checkbox"]) {
     flex-direction: row;
     align-items: center;
 }
 
 /* --- Ссылки внутри label --- */
-.wtn-form label a {
+.wfb-form label a {
     color: #0077b5;
     text-decoration: underline;
     transition: color 0.2s ease;
 }
 
-.wtn-form label a:hover {
+.wfb-form label a:hover {
     color: #005f93;
 }
 
 /* --- Адаптив --- */
 @media (max-width: 600px) {
-    .wtn-form-wrapper {
+    .wfb-form-wrapper {
         padding: 16px;
     }
 
-    .wtn-form {
+    .wfb-form {
         gap: 12px;
     }
 
-    .wtn-form button {
+    .wfb-form button {
         width: 100%;
     }
 }
@@ -193,22 +201,45 @@
 /* required field */
 
 /* --- Звёздочка обязательного поля --- */
-.wtn-required {
+.wfb-required {
     color: #e11d48; /* red-600 */
     margin-left: 4px;
     font-weight: 500;
     font-size: 14px;
 }
 
-.wtn-label-inline {
+.wfb-label-inline {
     font-size: 13px;
     color: #e11d48;
     margin-bottom: 4px;
     display: block;
 }
 
-.wtn-label span {
+.wfb-label span {
     display: flex;
     align-items: center;
     gap: 4px;
+}
+
+/* Select */
+
+.wfb-select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid #d1d5db; /* сероватая обводка */
+    background-color: #fff;
+    font-size: 1rem;
+    color: #111827;
+    appearance: none;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9IiNjY2MiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEyIDE3bC01LTVoMTBsLTUgNXoiLz48L3N2Zz4=');
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1.5em 1.5em;
+}
+
+.wfb-select:focus {
+    outline: none;
+    border-color: #3b82f6; /* синий фокус */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
