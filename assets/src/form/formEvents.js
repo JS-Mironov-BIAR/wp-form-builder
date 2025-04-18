@@ -1,25 +1,44 @@
+/* global wpfb_front */
 /**
- * * * * Working with settings and integration with Totalcontroller
- * @parameter {Event} e
- * form @param {HTMLFormElement}
+ * Handles form submit via AJAX
+ * @param {Event} e
+ * @param {HTMLFormElement} form
  */
 export default async function formEventsClick(e, form) {
     e.preventDefault()
 
-    if (typeof wtn_ajax === 'undefined') {
-        // eslint-disable-next-line
-        console.warn('wtn_ajax не определён')
+    if (typeof wpfb_front === 'undefined') {
+        console.warn('⚠️ wpfb_front is not defined')
         return
     }
-    const wrapper = form.closest('.wtn-form-wrapper')
+
+    const wrapper = form.closest('.wfb-form-wrapper')
     if (wrapper) wrapper.classList.add('loading')
 
     const data = new FormData(form)
-    data.append('action', 'wtn_send_form')
-    data.append('_ajax_nonce', wtn_ajax.nonce)
+
+    // Проверяем и добавляем обязательные поля
+    if (!data.has('action')) {
+        data.append('action', 'wpfb_send_form')
+    }
+
+    if (!data.has('_ajax_nonce')) {
+        data.append('_ajax_nonce', wpfb_front.nonce)
+    }
+
+    if (!data.has('form_id')) {
+        const formIdInput = form.querySelector('input[name="form_id"]')
+        if (formIdInput) {
+            data.append('form_id', formIdInput.value)
+        } else {
+            console.error('⚠️ form_id missing in form')
+            if (wrapper) wrapper.classList.remove('loading')
+            return
+        }
+    }
 
     try {
-        const response = await fetch(wtn_ajax.url, {
+        const response = await fetch(wpfb_front.ajaxUrl, {
             method: 'POST',
             body: data,
         })
@@ -31,9 +50,11 @@ export default async function formEventsClick(e, form) {
             form.reset()
         } else {
             ModalControllers?.Status?.setError?.()
+            console.error('❌ Ошибка отправки формы:', result.data || result)
         }
     } catch (error) {
         ModalControllers?.Status?.setError?.()
+        console.error('❌ Сетевая ошибка:', error)
     } finally {
         if (wrapper) wrapper.classList.remove('loading')
     }

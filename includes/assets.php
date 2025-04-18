@@ -1,15 +1,23 @@
 <?php
-if (!defined('ABSPATH')) {
-	exit;
-}
+/**
+ * Front‑end assets – подключаются на всех страницах сайта,
+ * где может встретиться шорткод [wpfb …].
+ */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-function wtn_enqueue_assets(): void {
-	wp_enqueue_style('wtn-style', plugin_dir_url(__FILE__) . '../assets/css/main.css', [], null);
-	wp_enqueue_script('wtn-script', plugin_dir_url(__FILE__) . '../assets/dist/main.js', [], null, true);
+add_action( 'wp_enqueue_scripts', 'wpfb_enqueue_front_assets' );
 
-	wp_localize_script('wtn-script', 'wtn_ajax', [
-		'url'   => admin_url('admin-ajax.php'),
-		'nonce' => wp_create_nonce('wtn_form_nonce'),
-	]);
+function wpfb_enqueue_front_assets() : void {
+
+	$base = plugin_dir_url( __DIR__ ) . 'assets/';   //  …/wp-form-builder/assets/
+	$ver  = '1.0.0';
+
+	wp_enqueue_style ( 'wpfb-front-style', $base . 'css/main.css',  [], $ver );
+	wp_enqueue_script( 'wpfb-front-script', $base . 'dist/main.js', [], $ver, true );
+
+	// ➜ переменные только для фронтового скрипта
+	wp_localize_script( 'wpfb-front-script', 'wpfb_front', [
+		'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+		'nonce'   => wp_create_nonce( 'wpfb_front_nonce' ),
+	] );
 }
-add_action('wp_enqueue_scripts', 'wtn_enqueue_assets');
