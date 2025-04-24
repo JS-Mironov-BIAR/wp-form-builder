@@ -18,11 +18,11 @@ function wpfb_handle_send_form(): void {
 		wp_send_json_error( 'Неверный ID формы' );
 	}
 
-	// 1. Берём шаблоны, сохранённые в мета‑полях формы
+	// 1. Берём шаблоны, сохранённые в мета‑полях формы
 	$msg_tpl   = get_post_meta( $post_id, 'wpfb_message_template', true ) ?: "📩 Новое сообщение\n\n[name]\n[phone]\n[message]";
 	$form_tpl  = get_post_meta( $post_id, 'wpfb_form_template',    true );
 
-	// 2. Валидация базовых полей (можешь заменить на свою)
+	// 2. Валидация базовых полей (можешь заменить на свою)
 	$allowed_fields = [
 		'name'    => 'sanitize_text_field',
 		'phone'   => 'sanitize_text_field',
@@ -45,7 +45,7 @@ function wpfb_handle_send_form(): void {
 		wp_send_json_error('Пожалуйста, выберите значение из списка.');
 	}
 
-	// 3. Заполняем шаблон и шлём
+	// 3. Заполняем шаблон и шлём
 	$replace_pairs = [];
 	foreach ($sanitized_data as $key => $value) {
 		$replace_pairs['[' . $key . ']'] = $value;

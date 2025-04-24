@@ -7,11 +7,14 @@
 // Загружаем «ядро» (панель + админ‑страницы)
 require_once __DIR__ . '/includes/admin/modular-panel.php';
 require_once __DIR__ . '/admin/pages/forms.php';
+require_once __DIR__ . '/admin/pages/form-edit.php';
+require_once __DIR__ . '/admin/pages/form-edit/save-meta.php';
+
 
 // Мета‑боксы и сохранение полей формы
-require_once __DIR__ . '/admin/form-meta.php';
-require_once __DIR__ . '/admin/meta.php';
-require_once __DIR__ . '/admin/save-form-meta.php';
+// require_once __DIR__ . '/admin/form-meta.php';
+// require_once __DIR__ . '/admin/meta.php';
+// require_once __DIR__ . '/admin/save-form-meta.php';
 
 // Общие вспомогалки
 require_once __DIR__ . '/includes/render-form.php';

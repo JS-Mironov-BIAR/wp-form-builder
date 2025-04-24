@@ -8,7 +8,6 @@ export default async function formEventsClick(e, form) {
     e.preventDefault()
 
     if (typeof wpfb_front === 'undefined') {
-        console.warn('⚠️ wpfb_front is not defined')
         return
     }
 

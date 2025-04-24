@@ -145,3 +145,29 @@
     opacity: 0;
 }
 
+.wpfb-buttons-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.wpfb-preview-box {
+    border: 1px solid #ccd0d4;
+    background: #f9f9f9;
+    padding: 16px;
+    min-height: 160px;
+    font-size: 14px;
+}
+
+.wpfb-form-builder .form-table th {
+    width: 180px;
+    vertical-align: top;
+    padding: 10px 0;
+}
+
+.wpfb-form-builder .form-table td {
+    padding: 10px 0;
+}
+
+
