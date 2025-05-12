@@ -68,7 +68,7 @@ function wpfb_enqueue_list_assets( string $hook ): void {
 }
 
 /* -------------------------------------------------------------------------
- *  EDITOR  (post.php / post‑new.php) — CPT wfb_form
+ *  EDITOR  (post.php / post‑new.php) — CPT wfb_form
  * ---------------------------------------------------------------------- */
 add_action( 'admin_enqueue_scripts', 'wpfb_enqueue_editor_assets' );
 

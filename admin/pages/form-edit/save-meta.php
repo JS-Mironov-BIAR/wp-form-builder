@@ -67,4 +67,7 @@ function wpfb_save_form_meta_data( int $post_id, WP_Post $post ): void {
 		update_post_meta( $post_id, '_wfb_actions', wp_kses_post( wp_unslash( $_POST['_wfb_actions'] ) ) );
 	}
 
+	if ( isset( $_POST['wpfb_send_method'] ) ) {
+		update_post_meta( $post_id, 'wpfb_send_method', sanitize_text_field( $_POST['wpfb_send_method'] ) );
+	}
 }
